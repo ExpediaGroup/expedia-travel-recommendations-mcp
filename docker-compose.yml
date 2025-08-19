@@ -1,0 +1,9 @@
+services:
+  expedia-travel-recommendations-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9900:9900"
+    environment:
+      EXPEDIA_API_KEY: "${EXPEDIA_API_KEY}"

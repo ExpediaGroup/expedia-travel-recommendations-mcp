@@ -1,0 +1,28 @@
+[project]
+name = "expedia_travel_recommendations"
+version = "0.1.0"
+description = "Travel recommendations MCP Server"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp==2.5.1",
+    "mcp[cli]==1.9.1",
+    "python-dotenv>=1.1.0",
+    "requests==2.32.3",
+]
+[tool.semantic_release]
+version_source = "tag"
+upload_to_pypi = false  # change to true if publish to PyPI is needed
+branch = "main"
+build_command = "python -m build"
+
+[tool.semantic_release.commit_parser]
+parser = "angular"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["expedia_travel_recommendations*"]
+
+[project.scripts]
+expedia_travel_recommendations = "expedia_travel_recommendations.main:main"
