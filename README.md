@@ -20,45 +20,20 @@ This project provides an **MCP (Model Context Protocol)** server that exposes Ex
 
 ---
 
-## 🚀 Installation
-
-### 1️⃣ Clone and Build the Python Package
-
-```bash
-git clone <repository-url>
-cd expedia-travel-recommendations-mcp
-chmod +x build.sh
-./build.sh
-```
-
-> This will build the Python wheel and output it under the `dist/` directory.
-
----
-
-### 2️⃣ Install in a Virtual Environment
-
-```bash
-chmod +x install.sh
-./install.sh
-```
-
-> Creates a virtual environment, installs the built wheel into it.
-
----
-
 ## ⚡ Running the MCP Server
 
 ### Run with `stdio` protocol (LLM Integration)
 
 ```bash
-chmod +x run.sh
-./run.sh "your_api_key" "stdio"
+export EXPEDIA_API_KEY="your_api_key_here"
+uvx expedia_travel_recommendations --protocol "stdio"
 ```
 
 ### Run with `streamable-http` protocol (Web Clients)
 
 ```bash
-./run.sh "your_api_key" "streamable-http"
+export EXPEDIA_API_KEY="your_api_key_here"
+uvx expedia_travel_recommendations --protocol "streamable-http"
 ```
 
 > Access it at: `http://0.0.0.0:9900/mcp`
@@ -70,8 +45,10 @@ chmod +x run.sh
 ### Using Docker Compose (Recommended)
 
 ```bash
-chmod +x docker_run.sh
-./docker_run.sh
+docker run \
+  -p 9900:9900 \
+  -e EXPEDIA_API_KEY=your_api_key_here \
+  <your-dockerhub-username>/expedia-travel-recommendations-mcp:latest 
 ```
 
 > Accessible at: `http://0.0.0.0:9900/mcp`
@@ -80,6 +57,8 @@ chmod +x docker_run.sh
 
 ## ⚙️ MCP Client Configuration
 
+### Using streamable-http (Recommended)
+
 ```json
 {
   "mcpServers": {
@@ -87,6 +66,25 @@ chmod +x docker_run.sh
       "url": "http://localhost:9900/mcp"
     }
   }
+}
+```
+
+### Using stdio
+```json
+{
+	"mcpServers": {
+	 "expedia-travel-recommendations": { 
+	   "command": "uvx", 
+	   "args": [
+	     "expedia_travel_recommendations", 
+	     "--protocol", 
+	     "stdio" 
+	   ],
+	   "env": { 
+	     "EXPEDIA_API_KEY": "your_api_key_here" 
+	   }
+	 }
+	}
 }
 ```
 
