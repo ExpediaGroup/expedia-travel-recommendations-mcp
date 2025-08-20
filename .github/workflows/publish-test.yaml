@@ -6,6 +6,8 @@ on:
 jobs:
   publish-test:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
 
     steps:
       - name: Checkout code
