@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: python-dist
-          path: dist/*
+          path: dist/
 
   publish:
     runs-on: ubuntu-latest
@@ -40,9 +40,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-dist
-          path: dist
+          path: dist/
 
       - name: Publish to Test PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           repository-url: https://test.pypi.org/legacy/
+          packages: dist/*.whl
+          password: ${{ secrets.TEST_PY_PI_TOKEN }}
