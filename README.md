@@ -26,14 +26,14 @@ This project provides an **MCP (Model Context Protocol)** server that exposes Ex
 
 ```bash
 export EXPEDIA_API_KEY="your_api_key_here"
-uvx expedia_travel_recommendations --protocol "stdio"
+uvx expedia_travel_recommendations_mcp --protocol "stdio"
 ```
 
 ### Run with `streamable-http` protocol (Web Clients)
 
 ```bash
 export EXPEDIA_API_KEY="your_api_key_here"
-uvx expedia_travel_recommendations --protocol "streamable-http"
+uvx expedia_travel_recommendations_mcp --protocol "streamable-http"
 ```
 
 > Access it at: `http://0.0.0.0:9900/mcp`
@@ -76,7 +76,7 @@ docker run \
 	 "expedia-travel-recommendations": { 
 	   "command": "uvx", 
 	   "args": [
-	     "expedia_travel_recommendations", 
+	     "expedia_travel_recommendations_mcp", 
 	     "--protocol", 
 	     "stdio" 
 	   ],
