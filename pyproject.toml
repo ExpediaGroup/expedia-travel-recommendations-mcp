@@ -1,6 +1,6 @@
 [project]
 name = "expedia-travel-recommendations-mcp"
-version = "0.1.5"
+version = "0.1.6"
 description = "Travel recommendations MCP Server"
 readme = "README.md"
 license = { file = "LICENSE" }
@@ -25,4 +25,4 @@ where = ["."]
 include = ["expedia_travel_recommendations*"]
 
 [project.scripts]
-expedia_travel_recommendations = "expedia_travel_recommendations.main:main"
+expedia_travel_recommendations_mcp = "expedia_travel_recommendations.main:main"
