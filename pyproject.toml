@@ -1,6 +1,6 @@
 [project]
 name = "expedia-travel-recommendations-mcp"
-version = "1.0.0"
+version = "1.0.2"
 description = "Travel recommendations MCP Server"
 readme = "README.md"
 license = { file = "LICENSE" }

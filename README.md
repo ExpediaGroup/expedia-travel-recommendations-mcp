@@ -48,7 +48,7 @@ uvx expedia_travel_recommendations_mcp --protocol "streamable-http"
 docker run \
   -p 9900:9900 \
   -e EXPEDIA_API_KEY=your_api_key_here \
-  <your-dockerhub-username>/expedia-travel-recommendations-mcp:latest 
+  expediagroup/expedia-travel-recommendations-mcp
 ```
 
 > Accessible at: `http://0.0.0.0:9900/mcp`
