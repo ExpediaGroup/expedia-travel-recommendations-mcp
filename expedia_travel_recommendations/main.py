@@ -108,20 +108,20 @@ async def get_hotel_recommendations(
             {k: v for k, v in optional_params.items() if v is not None}
         )
 
-        ctx.info(f"Processing hotel recommendation request for {destination}")
-        ctx.info(f"User input: {query_text}")
+        await ctx.info(f"Processing hotel recommendation request for {destination}")
+        await ctx.info(f"User input: {query_text}")
 
         result = await process_hotel_query(query_with_required_params)
 
         if "error" in result:
-            ctx.error(f"Error in hotel recommendations: {result['error']}")
+            await ctx.error(f"Error in hotel recommendations: {result['error']}")
             return {"error": result["error"]}
 
-        ctx.info("Successfully retrieved hotel recommendations")
+        await ctx.info("Successfully retrieved hotel recommendations")
         return result
 
     except Exception as e:
-        ctx.error(f"Exception in hotel recommendations: {e}")
+        await ctx.error(f"Exception in hotel recommendations: {e}")
         return {"error": str(e)}
 
 
@@ -173,22 +173,22 @@ async def get_flight_recommendations(
             {k: v for k, v in optional_params.items() if v is not None}
         )
 
-        ctx.info(
+        await ctx.info(
             f"Processing flight recommendation request from {origin} to {destination}"
         )
-        ctx.info(f"User input: {query_text}")
+        await ctx.info(f"User input: {query_text}")
 
         result = await process_flight_query(query_with_required_params)
 
         if "error" in result:
-            ctx.error(f"Error in flight recommendations: {result['error']}")
+            await ctx.error(f"Error in flight recommendations: {result['error']}")
             return {"error": result["error"]}
 
-        ctx.info("Successfully retrieved flight recommendations")
+        await ctx.info("Successfully retrieved flight recommendations")
         return result
 
     except Exception as e:
-        ctx.error(f"Exception in flight recommendations: {e}")
+        await ctx.error(f"Exception in flight recommendations: {e}")
         return {"error": str(e)}
 
 
@@ -240,20 +240,20 @@ async def get_activity_recommendations(
             {k: v for k, v in optional_params.items() if v is not None}
         )
 
-        ctx.info(f"Processing activity recommendation request for {destination}")
-        ctx.info(f"User input: {query_text}")
+        await ctx.info(f"Processing activity recommendation request for {destination}")
+        await ctx.info(f"User input: {query_text}")
 
         result = await process_activity_query(query_with_required_params)
 
         if "error" in result:
-            ctx.error(f"Error in activity recommendations: {result['error']}")
+            await ctx.error(f"Error in activity recommendations: {result['error']}")
             return {"error": result["error"]}
 
-        ctx.info("Successfully retrieved activity recommendations")
+        await ctx.info("Successfully retrieved activity recommendations")
         return result
 
     except Exception as e:
-        ctx.error(f"Exception in activity recommendations: {e}")
+        await ctx.error(f"Exception in activity recommendations: {e}")
         return {"error": str(e)}
 
 
@@ -308,22 +308,22 @@ async def get_car_recommendations(
             {k: v for k, v in optional_params.items() if v is not None}
         )
 
-        ctx.info(
+        await ctx.info(
             f"Processing car recommendation request for pickup at {pickup_location}"
         )
-        ctx.info(f"User input: {query_text}")
+        await ctx.info(f"User input: {query_text}")
 
         result = await process_car_query(query_with_required_params)
 
         if "error" in result:
-            ctx.error(f"Error in car recommendations: {result['error']}")
+            await ctx.error(f"Error in car recommendations: {result['error']}")
             return {"error": result["error"]}
 
-        ctx.info("Successfully retrieved car recommendations")
+        await ctx.info("Successfully retrieved car recommendations")
         return result
 
     except Exception as e:
-        ctx.error(f"Exception in car recommendations: {e}")
+        await ctx.error(f"Exception in car recommendations: {e}")
         return {"error": str(e)}
 
 
