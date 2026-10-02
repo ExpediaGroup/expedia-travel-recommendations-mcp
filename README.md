@@ -57,6 +57,11 @@ docker run \
 
 ## ⚙️ MCP Client Configuration
 
+Outbound Expedia API requests use a 30-second connection/read timeout, including
+the authentication fallback request. Timeouts return the usual error response.
+Python callers can override this with `ExpediaApiClient(timeout=60.0)`; this is
+a requests connection/read timeout, not a deadline for the entire operation.
+
 ### Using streamable-http (Recommended)
 
 ```json
