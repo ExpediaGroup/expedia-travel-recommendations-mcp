@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import asyncio
 import logging
 import os
 from typing import Any, Dict
@@ -59,7 +60,7 @@ async def process_hotel_query(user_query: Dict[str, Any]) -> Dict[str, Any]:
 
         # Call the API
         logger.info(f"Calling hotel recommendations API with params: {params}")
-        return api_client.get_hotel_recommendations(**params)
+        return await asyncio.to_thread(api_client.get_hotel_recommendations, **params)
 
     except Exception as e:
         logger.error(f"Error processing hotel query: {e}")
@@ -90,7 +91,7 @@ async def process_flight_query(user_query: Dict[str, Any]) -> Dict[str, Any]:
 
         # Call the API
         logger.info(f"Calling flight recommendations API with params: {params}")
-        return api_client.get_flight_recommendations(**params)
+        return await asyncio.to_thread(api_client.get_flight_recommendations, **params)
 
     except Exception as e:
         logger.error(f"Error processing flight query: {e}")
@@ -118,7 +119,9 @@ async def process_activity_query(user_query: Dict[str, Any]) -> Dict[str, Any]:
 
         # Call the API
         logger.info(f"Calling activity recommendations API with params: {params}")
-        return api_client.get_activity_recommendations(**params)
+        return await asyncio.to_thread(
+            api_client.get_activity_recommendations, **params
+        )
 
     except Exception as e:
         logger.error(f"Error processing activity query: {e}")
@@ -146,7 +149,7 @@ async def process_car_query(user_query: Dict[str, Any]) -> Dict[str, Any]:
 
         # Call the API
         logger.info(f"Calling car recommendations API with params: {params}")
-        return api_client.get_car_recommendations(**params)
+        return await asyncio.to_thread(api_client.get_car_recommendations, **params)
 
     except Exception as e:
         logger.error(f"Error processing car query: {e}")
