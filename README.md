@@ -110,6 +110,9 @@ docker run \
 
 ## 🔗 API Endpoints
 
+Recommendation handlers run the synchronous Expedia HTTP client in worker threads
+so API requests do not block the MCP server's event loop.
+
 > These are exposed when using the `streamable-http` protocol.
 
 - `POST /expedia/hotels` → Hotel recommendations  

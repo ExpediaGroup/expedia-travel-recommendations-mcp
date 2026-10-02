@@ -1,7 +1,33 @@
 # tests/test_handlers.py
+import asyncio
+import threading
 import pytest
 from unittest.mock import patch
 from expedia_travel_recommendations.api import handlers
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize("kind", ["hotel", "flight", "activity", "car"])
+async def test_api_request_does_not_block_event_loop(mock_client, kind):
+    release = threading.Event()
+    client_method = getattr(mock_client, f"get_{kind}_recommendations")
+    client_method.side_effect = lambda **kwargs: {"responsive": release.wait(timeout=2)}
+    params = {
+        "destination": "Paris",
+        "origin": "London",
+        "pickup_location": "Paris",
+        "user_input_in_english": "Travel to Paris",
+        "keywords": "Travel",
+    }
+    handler = getattr(handlers, f"process_{kind}_query")
+    task = asyncio.create_task(handler(params))
+    # This callback can only release the request if the handler yields to the loop.
+    asyncio.get_running_loop().call_soon(release.set)
+    try:
+        assert await task == {"responsive": True}
+    finally:
+        release.set()
+    client_method.assert_called_once_with(**params)
 
 
 @pytest.fixture
