@@ -32,7 +32,8 @@ load_dotenv()
 class ExpediaApiClient:
     """Client for interacting with Expedia Travel Recommendation Service API."""
 
-    def __init__(self):
+    def __init__(self, timeout: float = 30.0):
+        self.timeout = timeout
         self.api_key = os.getenv("EXPEDIA_API_KEY")
         if not self.api_key:
             logger.warning("EXPEDIA_API_KEY not found in environment variables")
@@ -77,7 +78,9 @@ class ExpediaApiClient:
             logger.info(f"Request parameters: {params}")
             logger.info(f"Request headers: {self.headers}")
             # Attempt request
-            response = requests.get(url, headers=self.headers, params=params)
+            response = requests.get(
+                url, headers=self.headers, params=params, timeout=self.timeout
+            )
 
             # Log the response status and details for debugging
             logger.info(f"Response status: {response.status_code}")
@@ -92,7 +95,9 @@ class ExpediaApiClient:
                 ).decode()
                 basic_auth_headers["Authorization"] = f"Basic {auth_str}"
 
-                response = requests.get(url, headers=basic_auth_headers, params=params)
+                response = requests.get(
+                    url, headers=basic_auth_headers, params=params, timeout=self.timeout
+                )
 
             response.raise_for_status()
             return response.json()

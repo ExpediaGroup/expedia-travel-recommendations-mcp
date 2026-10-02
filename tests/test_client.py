@@ -1,8 +1,52 @@
 # tests/test_expedia_client.py
 import pytest
 import requests
+import threading
+import time
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from unittest.mock import patch, MagicMock
 from expedia_travel_recommendations.api.client import ExpediaApiClient
+
+
+@pytest.mark.parametrize("fallback", [False, True])
+def test_api_request_times_out_when_server_stops_responding(monkeypatch, fallback):
+    class Handler(BaseHTTPRequestHandler):
+        calls = 0
+
+        def do_GET(self):
+            Handler.calls += 1
+            if fallback and Handler.calls == 1:
+                self.send_response(401)
+                self.end_headers()
+                return
+            time.sleep(0.2)
+            self.send_response(200)
+            self.end_headers()
+            try:
+                self.wfile.write(b"{}")
+            except (BrokenPipeError, ConnectionResetError):
+                pass
+
+        def log_message(self, *args):
+            pass
+
+    monkeypatch.setenv("EXPEDIA_API_KEY", "fake_api_key")
+    client = ExpediaApiClient(timeout=0.05)
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    client.base_url = f"http://127.0.0.1:{server.server_port}"
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        result = client.get_hotel_recommendations(
+            user_input_in_english="Paris", keywords="Hotels"
+        )
+        assert "error" in result
+        assert "timed out" in result["error"]
+        assert Handler.calls == (2 if fallback else 1)
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join()
 
 
 @pytest.fixture
